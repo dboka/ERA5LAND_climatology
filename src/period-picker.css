@@ -1,0 +1,70 @@
+.workspace{min-height:calc(100vh - 76px)}
+@media(min-width:961px){
+  .workspace.panel-closed{grid-template-columns:305px minmax(440px,1fr)}
+  .workspace.panel-closed .detail-panel{display:none}
+  .workspace.panel-closed .reopen-panel{display:flex;position:fixed;right:20px;bottom:20px;z-index:30;gap:8px;align-items:center;background:#9dd3dc;border:0;border-radius:6px;padding:10px 14px;color:#0b2b3e;font-size:12px;font-weight:800;box-shadow:0 5px 20px #0006;cursor:pointer}
+}
+@media(min-width:961px) and (max-width:1200px){.workspace.panel-closed{grid-template-columns:275px minmax(400px,1fr)}}
+@media(min-width:961px){.detail-panel{max-height:calc(100vh - 76px)}}
+
+.period-picker{min-width:0}
+.period-picker-heading{display:flex;align-items:center;gap:10px;margin-bottom:13px;color:#d4e8ed;font:700 12px/1.3 Manrope,sans-serif;letter-spacing:.02em}
+.period-picker-heading svg{color:#8cc9d5}
+.period-modes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+.period-modes button{min-height:42px;padding:7px 3px;border:1px solid #3a5b6f;border-radius:9px;background:#102b40;color:#a9c5d0;font-size:12px;font-weight:700;transition:background .15s,border-color .15s,color .15s,transform .15s}
+.period-modes button:hover{border-color:#84c7d2;color:#eef8fa;transform:translateY(-1px)}
+.period-modes button.active{background:#9bd5df;border-color:#b5e7ec;color:#08283b;box-shadow:0 5px 18px #75c7d126}
+.period-modes button:focus-visible,.calendar-trigger:focus-visible,.calendar-month-bar button:focus-visible,.calendar-grid button:focus-visible,.period-select-field select:focus-visible,.season-options button:focus-visible{outline:2px solid #c3eef1;outline-offset:2px}
+
+.period-controls{margin-top:12px;padding:15px;border:1px solid #36596b;border-radius:12px;background:linear-gradient(145deg,#102d41 0%,#10293c 100%)}
+.period-field-label{display:block;margin-bottom:8px;color:#98b9c7;font-size:11px;font-weight:700;letter-spacing:.02em}
+.period-select-row{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,.9fr);gap:9px}
+.period-select-field{position:relative;display:block;min-width:0}
+.period-select-field select,.calendar-trigger{width:100%;height:44px;border:1px solid #4a6b7d;border-radius:8px;background:#0b2539;color:#edf7f8;font-size:13px;font-weight:600}
+.period-select-field select{appearance:none;padding:0 28px 0 11px;cursor:pointer}
+.period-select-field svg{position:absolute;right:9px;bottom:13px;color:#8db6c4;pointer-events:none}
+.period-select-field select:hover,.calendar-trigger:hover{border-color:#86c4d0}
+.period-select-field select:focus,.calendar-trigger.open{border-color:#a8dbe3;outline:none;box-shadow:0 0 0 3px #91c9d524}
+.period-full-field{max-width:100%}
+
+.calendar-field{position:relative;min-width:0}
+.calendar-trigger{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0 12px;text-align:left;cursor:pointer}
+.calendar-trigger svg{flex:0 0 auto;color:#a4d6df}
+.calendar-popover{position:absolute;left:0;top:calc(100% + 8px);z-index:60;width:100%;padding:12px;border:1px solid #6595a3;border-radius:11px;background:#123247;box-shadow:0 16px 35px #00111cc9}
+.calendar-month-bar{display:flex;align-items:center;justify-content:space-between;gap:2px;margin-bottom:10px}
+.calendar-month-bar strong{min-width:0;color:#e3f2f5;font-size:12px;text-align:center;white-space:nowrap}
+.calendar-month-bar button{width:27px;height:27px;display:grid;place-items:center;border:0;border-radius:6px;background:transparent;color:#b9d6df}
+.calendar-month-bar button:hover:not(:disabled){background:#285268;color:#fff}
+.calendar-month-bar button:disabled{opacity:.35;cursor:not-allowed}
+.calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:2px}
+.calendar-weekday{display:grid;place-items:center;min-height:24px;color:#88acbb;font-size:10px;font-weight:700}
+.calendar-grid button,.calendar-grid>span:not(.calendar-weekday){min-width:0;height:27px}
+.calendar-grid button{border:0;border-radius:6px;background:transparent;color:#e1eef1;font-size:11px}
+.calendar-grid button:hover:not(:disabled){background:#315e72}
+.calendar-grid button.selected{background:#9bd5df;color:#0a2a3a;font-weight:800}
+.calendar-grid button:disabled{color:#637f8d;cursor:not-allowed}
+.period-range-fields{display:grid;gap:11px}
+.period-helper{margin:9px 0 0;color:#90adbb;font-size:10px;line-height:1.45}
+
+.season-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin-top:12px}
+.season-options button{min-height:51px;padding:7px 8px;border:1px solid #426478;border-radius:8px;background:#0c283b;color:#d1e4e9;text-align:left}
+.season-options button strong,.season-options button span{display:block}
+.season-options button strong{font-size:12px}
+.season-options button span{margin-top:2px;color:#8eafbc;font-size:10px}
+.season-options button:hover:not(:disabled){border-color:#84c7d2}
+.season-options button.active{border-color:#a5d8e0;background:#224b5e;box-shadow:inset 3px 0 #9bd5df}
+.season-options button:disabled{opacity:.4;cursor:not-allowed}
+.period-error{margin:12px 0 0;color:#ffc7b6;font-size:11px;line-height:1.5}
+
+.period-selection{margin-top:15px;padding-top:14px;border-top:1px solid #36566a}
+.period-selection-label{display:block;color:#a9cbd5;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.period-selection strong{display:block;margin-top:8px;color:#f2fafb;font:700 14px/1.4 Manrope,sans-serif}
+.period-selection small{display:block;margin-top:5px;color:#91b7c5;font-size:11px;line-height:1.55}
+
+@media(max-width:650px){
+  .workspace{min-height:calc(100vh - 64px)}
+  .period-picker-heading{font-size:13px}
+  .period-modes button{min-height:44px;font-size:12px}
+  .period-controls{padding:16px}
+  .calendar-grid button,.calendar-grid>span:not(.calendar-weekday){height:31px}
+}

@@ -1,0 +1,977 @@
+{
+  "AFG": {
+    "iso2": "AF",
+    "name": "Afganistāna",
+    "flag": "flags/af.svg"
+  },
+  "AGO": {
+    "iso2": "AO",
+    "name": "Angola",
+    "flag": "flags/ao.svg"
+  },
+  "ALB": {
+    "iso2": "AL",
+    "name": "Albānija",
+    "flag": "flags/al.svg"
+  },
+  "AND": {
+    "iso2": "AD",
+    "name": "Andora",
+    "flag": "flags/ad.svg"
+  },
+  "ARE": {
+    "iso2": "AE",
+    "name": "Apvienotie Arābu Emirāti",
+    "flag": "flags/ae.svg"
+  },
+  "ARG": {
+    "iso2": "AR",
+    "name": "Argentīna",
+    "flag": "flags/ar.svg"
+  },
+  "ARM": {
+    "iso2": "AM",
+    "name": "Armēnija",
+    "flag": "flags/am.svg"
+  },
+  "ATG": {
+    "iso2": "AG",
+    "name": "Antigva un Barbuda",
+    "flag": "flags/ag.svg"
+  },
+  "AUS": {
+    "iso2": "AU",
+    "name": "Austrālija",
+    "flag": "flags/au.svg"
+  },
+  "AUT": {
+    "iso2": "AT",
+    "name": "Austrija",
+    "flag": "flags/at.svg"
+  },
+  "AZE": {
+    "iso2": "AZ",
+    "name": "Azerbaidžāna",
+    "flag": "flags/az.svg"
+  },
+  "BDI": {
+    "iso2": "BI",
+    "name": "Burundija",
+    "flag": "flags/bi.svg"
+  },
+  "BEL": {
+    "iso2": "BE",
+    "name": "Beļģija",
+    "flag": "flags/be.svg"
+  },
+  "BEN": {
+    "iso2": "BJ",
+    "name": "Benina",
+    "flag": "flags/bj.svg"
+  },
+  "BFA": {
+    "iso2": "BF",
+    "name": "Burkinafaso",
+    "flag": "flags/bf.svg"
+  },
+  "BGD": {
+    "iso2": "BD",
+    "name": "Bangladeša",
+    "flag": "flags/bd.svg"
+  },
+  "BGR": {
+    "iso2": "BG",
+    "name": "Bulgārija",
+    "flag": "flags/bg.svg"
+  },
+  "BHR": {
+    "iso2": "BH",
+    "name": "Bahreina",
+    "flag": "flags/bh.svg"
+  },
+  "BHS": {
+    "iso2": "BS",
+    "name": "Bahamu salas",
+    "flag": "flags/bs.svg"
+  },
+  "BIH": {
+    "iso2": "BA",
+    "name": "Bosnija un Hercegovina",
+    "flag": "flags/ba.svg"
+  },
+  "BLR": {
+    "iso2": "BY",
+    "name": "Baltkrievija",
+    "flag": "flags/by.svg"
+  },
+  "BLZ": {
+    "iso2": "BZ",
+    "name": "Beliza",
+    "flag": "flags/bz.svg"
+  },
+  "BOL": {
+    "iso2": "BO",
+    "name": "Bolīvija",
+    "flag": "flags/bo.svg"
+  },
+  "BRA": {
+    "iso2": "BR",
+    "name": "Brazīlija",
+    "flag": "flags/br.svg"
+  },
+  "BRB": {
+    "iso2": "BB",
+    "name": "Barbadosa",
+    "flag": "flags/bb.svg"
+  },
+  "BRN": {
+    "iso2": "BN",
+    "name": "Bruneja",
+    "flag": "flags/bn.svg"
+  },
+  "BTN": {
+    "iso2": "BT",
+    "name": "Butāna",
+    "flag": "flags/bt.svg"
+  },
+  "BWA": {
+    "iso2": "BW",
+    "name": "Botsvāna",
+    "flag": "flags/bw.svg"
+  },
+  "CAF": {
+    "iso2": "CF",
+    "name": "Centrālāfrikas Republika",
+    "flag": "flags/cf.svg"
+  },
+  "CAN": {
+    "iso2": "CA",
+    "name": "Kanāda",
+    "flag": "flags/ca.svg"
+  },
+  "CHE": {
+    "iso2": "CH",
+    "name": "Šveice",
+    "flag": "flags/ch.svg"
+  },
+  "CHL": {
+    "iso2": "CL",
+    "name": "Čīle",
+    "flag": "flags/cl.svg"
+  },
+  "CHN": {
+    "iso2": "CN",
+    "name": "Ķīna",
+    "flag": "flags/cn.svg"
+  },
+  "CIV": {
+    "iso2": "CI",
+    "name": "Kotdivuāra",
+    "flag": "flags/ci.svg"
+  },
+  "CMR": {
+    "iso2": "CM",
+    "name": "Kamerūna",
+    "flag": "flags/cm.svg"
+  },
+  "COD": {
+    "iso2": "CD",
+    "name": "Kongo (Kinšasa)",
+    "flag": "flags/cd.svg"
+  },
+  "COG": {
+    "iso2": "CG",
+    "name": "Kongo (Brazavila)",
+    "flag": "flags/cg.svg"
+  },
+  "COL": {
+    "iso2": "CO",
+    "name": "Kolumbija",
+    "flag": "flags/co.svg"
+  },
+  "COM": {
+    "iso2": "KM",
+    "name": "Komoru salas",
+    "flag": "flags/km.svg"
+  },
+  "CPV": {
+    "iso2": "CV",
+    "name": "Kaboverde",
+    "flag": "flags/cv.svg"
+  },
+  "CRI": {
+    "iso2": "CR",
+    "name": "Kostarika",
+    "flag": "flags/cr.svg"
+  },
+  "CUB": {
+    "iso2": "CU",
+    "name": "Kuba",
+    "flag": "flags/cu.svg"
+  },
+  "CYP": {
+    "iso2": "CY",
+    "name": "Kipra",
+    "flag": "flags/cy.svg"
+  },
+  "CZE": {
+    "iso2": "CZ",
+    "name": "Čehija",
+    "flag": "flags/cz.svg"
+  },
+  "DEU": {
+    "iso2": "DE",
+    "name": "Vācija",
+    "flag": "flags/de.svg"
+  },
+  "DJI": {
+    "iso2": "DJ",
+    "name": "Džibutija",
+    "flag": "flags/dj.svg"
+  },
+  "DMA": {
+    "iso2": "DM",
+    "name": "Dominika",
+    "flag": "flags/dm.svg"
+  },
+  "DNK": {
+    "iso2": "DK",
+    "name": "Dānija",
+    "flag": "flags/dk.svg"
+  },
+  "DOM": {
+    "iso2": "DO",
+    "name": "Dominikāna",
+    "flag": "flags/do.svg"
+  },
+  "DZA": {
+    "iso2": "DZ",
+    "name": "Alžīrija",
+    "flag": "flags/dz.svg"
+  },
+  "ECU": {
+    "iso2": "EC",
+    "name": "Ekvadora",
+    "flag": "flags/ec.svg"
+  },
+  "EGY": {
+    "iso2": "EG",
+    "name": "Ēģipte",
+    "flag": "flags/eg.svg"
+  },
+  "ERI": {
+    "iso2": "ER",
+    "name": "Eritreja",
+    "flag": "flags/er.svg"
+  },
+  "ESP": {
+    "iso2": "ES",
+    "name": "Spānija",
+    "flag": "flags/es.svg"
+  },
+  "EST": {
+    "iso2": "EE",
+    "name": "Igaunija",
+    "flag": "flags/ee.svg"
+  },
+  "ETH": {
+    "iso2": "ET",
+    "name": "Etiopija",
+    "flag": "flags/et.svg"
+  },
+  "FIN": {
+    "iso2": "FI",
+    "name": "Somija",
+    "flag": "flags/fi.svg"
+  },
+  "FJI": {
+    "iso2": "FJ",
+    "name": "Fidži",
+    "flag": "flags/fj.svg"
+  },
+  "FRA": {
+    "iso2": "FR",
+    "name": "Francija",
+    "flag": "flags/fr.svg"
+  },
+  "FSM": {
+    "iso2": "FM",
+    "name": "Mikronēzija",
+    "flag": "flags/fm.svg"
+  },
+  "GAB": {
+    "iso2": "GA",
+    "name": "Gabona",
+    "flag": "flags/ga.svg"
+  },
+  "GBR": {
+    "iso2": "GB",
+    "name": "Apvienotā Karaliste",
+    "flag": "flags/gb.svg"
+  },
+  "GEO": {
+    "iso2": "GE",
+    "name": "Gruzija",
+    "flag": "flags/ge.svg"
+  },
+  "GHA": {
+    "iso2": "GH",
+    "name": "Gana",
+    "flag": "flags/gh.svg"
+  },
+  "GIN": {
+    "iso2": "GN",
+    "name": "Gvineja",
+    "flag": "flags/gn.svg"
+  },
+  "GMB": {
+    "iso2": "GM",
+    "name": "Gambija",
+    "flag": "flags/gm.svg"
+  },
+  "GNB": {
+    "iso2": "GW",
+    "name": "Gvineja-Bisava",
+    "flag": "flags/gw.svg"
+  },
+  "GNQ": {
+    "iso2": "GQ",
+    "name": "Ekvatoriālā Gvineja",
+    "flag": "flags/gq.svg"
+  },
+  "GRC": {
+    "iso2": "GR",
+    "name": "Grieķija",
+    "flag": "flags/gr.svg"
+  },
+  "GRD": {
+    "iso2": "GD",
+    "name": "Grenāda",
+    "flag": "flags/gd.svg"
+  },
+  "GTM": {
+    "iso2": "GT",
+    "name": "Gvatemala",
+    "flag": "flags/gt.svg"
+  },
+  "GUY": {
+    "iso2": "GY",
+    "name": "Gajāna",
+    "flag": "flags/gy.svg"
+  },
+  "HND": {
+    "iso2": "HN",
+    "name": "Hondurasa",
+    "flag": "flags/hn.svg"
+  },
+  "HRV": {
+    "iso2": "HR",
+    "name": "Horvātija",
+    "flag": "flags/hr.svg"
+  },
+  "HTI": {
+    "iso2": "HT",
+    "name": "Haiti",
+    "flag": "flags/ht.svg"
+  },
+  "HUN": {
+    "iso2": "HU",
+    "name": "Ungārija",
+    "flag": "flags/hu.svg"
+  },
+  "IDN": {
+    "iso2": "ID",
+    "name": "Indonēzija",
+    "flag": "flags/id.svg"
+  },
+  "IND": {
+    "iso2": "IN",
+    "name": "Indija",
+    "flag": "flags/in.svg"
+  },
+  "IRL": {
+    "iso2": "IE",
+    "name": "Īrija",
+    "flag": "flags/ie.svg"
+  },
+  "IRN": {
+    "iso2": "IR",
+    "name": "Irāna",
+    "flag": "flags/ir.svg"
+  },
+  "IRQ": {
+    "iso2": "IQ",
+    "name": "Irāka",
+    "flag": "flags/iq.svg"
+  },
+  "ISL": {
+    "iso2": "IS",
+    "name": "Islande",
+    "flag": "flags/is.svg"
+  },
+  "ISR": {
+    "iso2": "IL",
+    "name": "Izraēla",
+    "flag": "flags/il.svg"
+  },
+  "ITA": {
+    "iso2": "IT",
+    "name": "Itālija",
+    "flag": "flags/it.svg"
+  },
+  "JAM": {
+    "iso2": "JM",
+    "name": "Jamaika",
+    "flag": "flags/jm.svg"
+  },
+  "JOR": {
+    "iso2": "JO",
+    "name": "Jordānija",
+    "flag": "flags/jo.svg"
+  },
+  "JPN": {
+    "iso2": "JP",
+    "name": "Japāna",
+    "flag": "flags/jp.svg"
+  },
+  "KAZ": {
+    "iso2": "KZ",
+    "name": "Kazahstāna",
+    "flag": "flags/kz.svg"
+  },
+  "KEN": {
+    "iso2": "KE",
+    "name": "Kenija",
+    "flag": "flags/ke.svg"
+  },
+  "KGZ": {
+    "iso2": "KG",
+    "name": "Kirgizstāna",
+    "flag": "flags/kg.svg"
+  },
+  "KHM": {
+    "iso2": "KH",
+    "name": "Kambodža",
+    "flag": "flags/kh.svg"
+  },
+  "KIR": {
+    "iso2": "KI",
+    "name": "Kiribati",
+    "flag": "flags/ki.svg"
+  },
+  "KNA": {
+    "iso2": "KN",
+    "name": "Sentkitsa un Nevisa",
+    "flag": "flags/kn.svg"
+  },
+  "KOR": {
+    "iso2": "KR",
+    "name": "Dienvidkoreja",
+    "flag": "flags/kr.svg"
+  },
+  "KWT": {
+    "iso2": "KW",
+    "name": "Kuveita",
+    "flag": "flags/kw.svg"
+  },
+  "LAO": {
+    "iso2": "LA",
+    "name": "Laosa",
+    "flag": "flags/la.svg"
+  },
+  "LBN": {
+    "iso2": "LB",
+    "name": "Libāna",
+    "flag": "flags/lb.svg"
+  },
+  "LBR": {
+    "iso2": "LR",
+    "name": "Libērija",
+    "flag": "flags/lr.svg"
+  },
+  "LBY": {
+    "iso2": "LY",
+    "name": "Lībija",
+    "flag": "flags/ly.svg"
+  },
+  "LCA": {
+    "iso2": "LC",
+    "name": "Sentlūsija",
+    "flag": "flags/lc.svg"
+  },
+  "LIE": {
+    "iso2": "LI",
+    "name": "Lihtenšteina",
+    "flag": "flags/li.svg"
+  },
+  "LKA": {
+    "iso2": "LK",
+    "name": "Šrilanka",
+    "flag": "flags/lk.svg"
+  },
+  "LSO": {
+    "iso2": "LS",
+    "name": "Lesoto",
+    "flag": "flags/ls.svg"
+  },
+  "LTU": {
+    "iso2": "LT",
+    "name": "Lietuva",
+    "flag": "flags/lt.svg"
+  },
+  "LUX": {
+    "iso2": "LU",
+    "name": "Luksemburga",
+    "flag": "flags/lu.svg"
+  },
+  "LVA": {
+    "iso2": "LV",
+    "name": "Latvija",
+    "flag": "flags/lv.svg"
+  },
+  "MAR": {
+    "iso2": "MA",
+    "name": "Maroka",
+    "flag": "flags/ma.svg"
+  },
+  "MCO": {
+    "iso2": "MC",
+    "name": "Monako",
+    "flag": "flags/mc.svg"
+  },
+  "MDA": {
+    "iso2": "MD",
+    "name": "Moldova",
+    "flag": "flags/md.svg"
+  },
+  "MDG": {
+    "iso2": "MG",
+    "name": "Madagaskara",
+    "flag": "flags/mg.svg"
+  },
+  "MDV": {
+    "iso2": "MV",
+    "name": "Maldīvija",
+    "flag": "flags/mv.svg"
+  },
+  "MEX": {
+    "iso2": "MX",
+    "name": "Meksika",
+    "flag": "flags/mx.svg"
+  },
+  "MHL": {
+    "iso2": "MH",
+    "name": "Māršala salas",
+    "flag": "flags/mh.svg"
+  },
+  "MKD": {
+    "iso2": "MK",
+    "name": "Ziemeļmaķedonija",
+    "flag": "flags/mk.svg"
+  },
+  "MLI": {
+    "iso2": "ML",
+    "name": "Mali",
+    "flag": "flags/ml.svg"
+  },
+  "MLT": {
+    "iso2": "MT",
+    "name": "Malta",
+    "flag": "flags/mt.svg"
+  },
+  "MMR": {
+    "iso2": "MM",
+    "name": "Mjanma (Birma)",
+    "flag": "flags/mm.svg"
+  },
+  "MNE": {
+    "iso2": "ME",
+    "name": "Melnkalne",
+    "flag": "flags/me.svg"
+  },
+  "MNG": {
+    "iso2": "MN",
+    "name": "Mongolija",
+    "flag": "flags/mn.svg"
+  },
+  "MOZ": {
+    "iso2": "MZ",
+    "name": "Mozambika",
+    "flag": "flags/mz.svg"
+  },
+  "MRT": {
+    "iso2": "MR",
+    "name": "Mauritānija",
+    "flag": "flags/mr.svg"
+  },
+  "MUS": {
+    "iso2": "MU",
+    "name": "Maurīcija",
+    "flag": "flags/mu.svg"
+  },
+  "MWI": {
+    "iso2": "MW",
+    "name": "Malāvija",
+    "flag": "flags/mw.svg"
+  },
+  "MYS": {
+    "iso2": "MY",
+    "name": "Malaizija",
+    "flag": "flags/my.svg"
+  },
+  "NAM": {
+    "iso2": "NA",
+    "name": "Namībija",
+    "flag": "flags/na.svg"
+  },
+  "NER": {
+    "iso2": "NE",
+    "name": "Nigēra",
+    "flag": "flags/ne.svg"
+  },
+  "NGA": {
+    "iso2": "NG",
+    "name": "Nigērija",
+    "flag": "flags/ng.svg"
+  },
+  "NIC": {
+    "iso2": "NI",
+    "name": "Nikaragva",
+    "flag": "flags/ni.svg"
+  },
+  "NLD": {
+    "iso2": "NL",
+    "name": "Nīderlande",
+    "flag": "flags/nl.svg"
+  },
+  "NOR": {
+    "iso2": "NO",
+    "name": "Norvēģija",
+    "flag": "flags/no.svg"
+  },
+  "NPL": {
+    "iso2": "NP",
+    "name": "Nepāla",
+    "flag": "flags/np.svg"
+  },
+  "NRU": {
+    "iso2": "NR",
+    "name": "Nauru",
+    "flag": "flags/nr.svg"
+  },
+  "NZL": {
+    "iso2": "NZ",
+    "name": "Jaunzēlande",
+    "flag": "flags/nz.svg"
+  },
+  "OMN": {
+    "iso2": "OM",
+    "name": "Omāna",
+    "flag": "flags/om.svg"
+  },
+  "PAK": {
+    "iso2": "PK",
+    "name": "Pakistāna",
+    "flag": "flags/pk.svg"
+  },
+  "PAN": {
+    "iso2": "PA",
+    "name": "Panama",
+    "flag": "flags/pa.svg"
+  },
+  "PER": {
+    "iso2": "PE",
+    "name": "Peru",
+    "flag": "flags/pe.svg"
+  },
+  "PHL": {
+    "iso2": "PH",
+    "name": "Filipīnas",
+    "flag": "flags/ph.svg"
+  },
+  "PLW": {
+    "iso2": "PW",
+    "name": "Palau",
+    "flag": "flags/pw.svg"
+  },
+  "PNG": {
+    "iso2": "PG",
+    "name": "Papua-Jaungvineja",
+    "flag": "flags/pg.svg"
+  },
+  "POL": {
+    "iso2": "PL",
+    "name": "Polija",
+    "flag": "flags/pl.svg"
+  },
+  "PRK": {
+    "iso2": "KP",
+    "name": "Ziemeļkoreja",
+    "flag": "flags/kp.svg"
+  },
+  "PRT": {
+    "iso2": "PT",
+    "name": "Portugāle",
+    "flag": "flags/pt.svg"
+  },
+  "PRY": {
+    "iso2": "PY",
+    "name": "Paragvaja",
+    "flag": "flags/py.svg"
+  },
+  "PSE": {
+    "iso2": "PS",
+    "name": "Palestīna",
+    "flag": "flags/ps.svg"
+  },
+  "QAT": {
+    "iso2": "QA",
+    "name": "Katara",
+    "flag": "flags/qa.svg"
+  },
+  "ROU": {
+    "iso2": "RO",
+    "name": "Rumānija",
+    "flag": "flags/ro.svg"
+  },
+  "RUS": {
+    "iso2": "RU",
+    "name": "Krievija",
+    "flag": "flags/ru.svg"
+  },
+  "RWA": {
+    "iso2": "RW",
+    "name": "Ruanda",
+    "flag": "flags/rw.svg"
+  },
+  "SAU": {
+    "iso2": "SA",
+    "name": "Saūda Arābija",
+    "flag": "flags/sa.svg"
+  },
+  "SDN": {
+    "iso2": "SD",
+    "name": "Sudāna",
+    "flag": "flags/sd.svg"
+  },
+  "SEN": {
+    "iso2": "SN",
+    "name": "Senegāla",
+    "flag": "flags/sn.svg"
+  },
+  "SGP": {
+    "iso2": "SG",
+    "name": "Singapūra",
+    "flag": "flags/sg.svg"
+  },
+  "SLB": {
+    "iso2": "SB",
+    "name": "Zālamana salas",
+    "flag": "flags/sb.svg"
+  },
+  "SLE": {
+    "iso2": "SL",
+    "name": "Sjerraleone",
+    "flag": "flags/sl.svg"
+  },
+  "SLV": {
+    "iso2": "SV",
+    "name": "Salvadora",
+    "flag": "flags/sv.svg"
+  },
+  "SMR": {
+    "iso2": "SM",
+    "name": "Sanmarīno",
+    "flag": "flags/sm.svg"
+  },
+  "SOM": {
+    "iso2": "SO",
+    "name": "Somālija",
+    "flag": "flags/so.svg"
+  },
+  "SRB": {
+    "iso2": "RS",
+    "name": "Serbija",
+    "flag": "flags/rs.svg"
+  },
+  "SSD": {
+    "iso2": "SS",
+    "name": "Dienvidsudāna",
+    "flag": "flags/ss.svg"
+  },
+  "STP": {
+    "iso2": "ST",
+    "name": "Santome un Prinsipi",
+    "flag": "flags/st.svg"
+  },
+  "SUR": {
+    "iso2": "SR",
+    "name": "Surinama",
+    "flag": "flags/sr.svg"
+  },
+  "SVK": {
+    "iso2": "SK",
+    "name": "Slovākija",
+    "flag": "flags/sk.svg"
+  },
+  "SVN": {
+    "iso2": "SI",
+    "name": "Slovēnija",
+    "flag": "flags/si.svg"
+  },
+  "SWE": {
+    "iso2": "SE",
+    "name": "Zviedrija",
+    "flag": "flags/se.svg"
+  },
+  "SWZ": {
+    "iso2": "SZ",
+    "name": "Svatini",
+    "flag": "flags/sz.svg"
+  },
+  "SYC": {
+    "iso2": "SC",
+    "name": "Seišelu salas",
+    "flag": "flags/sc.svg"
+  },
+  "SYR": {
+    "iso2": "SY",
+    "name": "Sīrija",
+    "flag": "flags/sy.svg"
+  },
+  "TCD": {
+    "iso2": "TD",
+    "name": "Čada",
+    "flag": "flags/td.svg"
+  },
+  "TGO": {
+    "iso2": "TG",
+    "name": "Togo",
+    "flag": "flags/tg.svg"
+  },
+  "THA": {
+    "iso2": "TH",
+    "name": "Taizeme",
+    "flag": "flags/th.svg"
+  },
+  "TJK": {
+    "iso2": "TJ",
+    "name": "Tadžikistāna",
+    "flag": "flags/tj.svg"
+  },
+  "TKM": {
+    "iso2": "TM",
+    "name": "Turkmenistāna",
+    "flag": "flags/tm.svg"
+  },
+  "TLS": {
+    "iso2": "TL",
+    "name": "Austrumtimora",
+    "flag": "flags/tl.svg"
+  },
+  "TON": {
+    "iso2": "TO",
+    "name": "Tonga",
+    "flag": "flags/to.svg"
+  },
+  "TTO": {
+    "iso2": "TT",
+    "name": "Trinidāda un Tobāgo",
+    "flag": "flags/tt.svg"
+  },
+  "TUN": {
+    "iso2": "TN",
+    "name": "Tunisija",
+    "flag": "flags/tn.svg"
+  },
+  "TUR": {
+    "iso2": "TR",
+    "name": "Turcija",
+    "flag": "flags/tr.svg"
+  },
+  "TUV": {
+    "iso2": "TV",
+    "name": "Tuvalu",
+    "flag": "flags/tv.svg"
+  },
+  "TZA": {
+    "iso2": "TZ",
+    "name": "Tanzānija",
+    "flag": "flags/tz.svg"
+  },
+  "UGA": {
+    "iso2": "UG",
+    "name": "Uganda",
+    "flag": "flags/ug.svg"
+  },
+  "UKR": {
+    "iso2": "UA",
+    "name": "Ukraina",
+    "flag": "flags/ua.svg"
+  },
+  "URY": {
+    "iso2": "UY",
+    "name": "Urugvaja",
+    "flag": "flags/uy.svg"
+  },
+  "USA": {
+    "iso2": "US",
+    "name": "Amerikas Savienotās Valstis",
+    "flag": "flags/us.svg"
+  },
+  "UZB": {
+    "iso2": "UZ",
+    "name": "Uzbekistāna",
+    "flag": "flags/uz.svg"
+  },
+  "VAT": {
+    "iso2": "VA",
+    "name": "Vatikāns",
+    "flag": "flags/va.svg"
+  },
+  "VCT": {
+    "iso2": "VC",
+    "name": "Sentvinsenta un Grenadīnas",
+    "flag": "flags/vc.svg"
+  },
+  "VEN": {
+    "iso2": "VE",
+    "name": "Venecuēla",
+    "flag": "flags/ve.svg"
+  },
+  "VNM": {
+    "iso2": "VN",
+    "name": "Vjetnama",
+    "flag": "flags/vn.svg"
+  },
+  "VUT": {
+    "iso2": "VU",
+    "name": "Vanuatu",
+    "flag": "flags/vu.svg"
+  },
+  "WSM": {
+    "iso2": "WS",
+    "name": "Samoa",
+    "flag": "flags/ws.svg"
+  },
+  "YEM": {
+    "iso2": "YE",
+    "name": "Jemena",
+    "flag": "flags/ye.svg"
+  },
+  "ZAF": {
+    "iso2": "ZA",
+    "name": "Dienvidāfrikas Republika",
+    "flag": "flags/za.svg"
+  },
+  "ZMB": {
+    "iso2": "ZM",
+    "name": "Zambija",
+    "flag": "flags/zm.svg"
+  },
+  "ZWE": {
+    "iso2": "ZW",
+    "name": "Zimbabve",
+    "flag": "flags/zw.svg"
+  }
+}

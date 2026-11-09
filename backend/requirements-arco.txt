@@ -1,0 +1,4 @@
+-r requirements-etl.txt
+zarr>=3,<4
+fsspec>=2025.1
+httpio>=0.3
