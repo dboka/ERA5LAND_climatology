@@ -1,6 +1,6 @@
 # Ikdienas datu atjaunināšana
 
-Lokālā plūsma ir ieslēgta 2026-11-09. Windows uzdevums `GlobalClimateDailyUpdate` startē **katru dienu plkst. 08.00 pēc datora vietējā laika** un lietotājam piesakoties sistēmā. Pirmais manuāli sāktais cikls veiksmīgi pabeidzās 2026-11-09: PostGIS un statiskais eksports tagad iet līdz **2026-11-03**. ARCO pieejamība nosaka faktisko jaunāko dienu; nav pieņēmuma, ka vakardienas dati jau ir publicēti.
+Lokālā plūsma ir ieslēgta 2026-11-09. Windows uzdevums `GlobalClimateDailyUpdate` startē **katru dienu plkst. 08.00 pēc datora vietējā laika** un lietotājam piesakoties sistēmā. Kopš 2026-11-17 tas papildina gan temperatūru, gan nokrišņus. ARCO pieejamība nosaka faktisko jaunāko dienu; nav pieņēmuma, ka vakardienas dati jau ir publicēti.
 
 ## Katrs cikls
 
@@ -8,8 +8,9 @@ Lokālā plūsma ir ieslēgta 2026-11-09. Windows uzdevums `GlobalClimateDailyUp
 
 1. Sagaida Docker Desktop (līdz 15 minūtēm) un PostGIS (līdz 5 minūtēm), tad pārbauda vai palaiž lokālo FastAPI un Vite vietni.
 2. `backend/etl/arco_daily_update.py` no DB nosaka nākamo UTC dienu, no ARCO metadatiem nosaka pēdējo **pilno** dienu, pārbauda 24 stundas un 188 valstu vērtības un katru dienu ieraksta atsevišķā DB transakcijā. 1991–2020 vēsturi un normas tas nemaina. Īslaicīgas tīkla, ARCO limita un DB kļūdas tiek atkārtotas ar pauzi līdz 30 minūtēm. Pastāvīga kļūda aptur ciklu; nākamais mēģinājums turpina no DB kontrolpunkta.
-3. Pēc veiksmīga importa `backend/export_static.py` atjauno `public/data/` JSON momentuzņēmumu.
-4. Vite ar `VITE_STATIC_DATA=1` un `GITHUB_PAGES=1` pārbūvē `dist/` statiskajai izvietošanai.
+3. `backend/etl/arco_precip_daily_update.py` ar tādu pašu pilnas UTC dienas, 188 valstu un PostGIS kontrolpunkta pārbaudi papildina `precipitation_daily`; 1991–2020 normas tas nemaina.
+4. Pēc abiem importiem `backend/export_static.py` atjauno temperatūras un nokrišņu `public/data/` JSON momentuzņēmumus.
+5. Vite ar `VITE_STATIC_DATA=1` un `GITHUB_PAGES=1` pārbūvē `dist/` statiskajai izvietošanai.
 
 Lokālā vietne `http://127.0.0.1:5173/` izmanto dzīvu FastAPI/PostGIS savienojumu, tāpēc jaunās dienas ir redzamas bez manuāla eksporta. Atvērta lapa pārbauda jaunāko datumu ik pēc piecām minūtēm un, atgriežoties pie cilnes vai loga, uzreiz. Statiskā vietne izmanto `public/data/` momentuzņēmumu; pēc jaunas GitHub Pages versijas publicēšanas atvērta cilne pārlādējas, kad pamana jaunu datumu.
 
@@ -23,6 +24,7 @@ PowerShell projekta saknē:
 .\scripts\daily_update_status.ps1
 . .\scripts\postgis-env.ps1
 .\.venv\Scripts\python.exe -m backend.etl.arco_daily_update --probe
+.\.venv\Scripts\python.exe -m backend.etl.arco_precip_daily_update --probe
 Start-ScheduledTask -TaskName GlobalClimateDailyUpdate
 ```
 
@@ -32,7 +34,7 @@ Vienu kontrolētu dienu var apstrādāt ar `python -m backend.etl.arco_daily_upd
 
 ## GitHub Pages ceļš
 
-Publiskais repozitorijs ir `dboka/ERA5LAND_climatology`. Tajā ir tikai pārskatīts pirmkods, kartes robežas, karogi un `public/data/` valstu dienu temperatūru un normu **statisks momentuzņēmums**. `data/`, `.env`, pilnie ERA5-Land režģi, žurnāli un PostgreSQL volume netiek komitēti. Pārlūks GitHub Pages vidē aprēķina izvēlētā perioda anomāliju no publiskajiem JSON, neizmantojot dzīvu datubāzes savienojumu.
+Publiskais repozitorijs ir `dboka/ERA5LAND_climatology`. Tajā ir tikai pārskatīts pirmkods, kartes robežas, karogi un `public/data/` valstu dienu temperatūru, nokrišņu un normu **statisks momentuzņēmums**. `data/`, `.env`, pilnie ERA5-Land režģi, žurnāli un PostgreSQL volume netiek komitēti. Pārlūks GitHub Pages vidē aprēķina izvēlētā perioda anomāliju no publiskajiem JSON, neizmantojot dzīvu datubāzes savienojumu.
 
 `.github/workflows/pages.yml` sākas tikai ar manuālu `workflow_dispatch`. Kodam un datiem piesūtītas izmaiņas pašas vietni neizvieto. Lokālais `GlobalClimateDailyUpdate` turpina atjaunot PostGIS, `public/data/` un `dist/`, bet **neveic Git commit, push vai GitHub izvietošanu**. Nākamo publisko versiju varēs izvietot atsevišķi pēc pārskatīšanas. GitHub Pages nevar pats izpildīt Python ETL vai piekļūt lokālajam PostGIS. Nākotnes servera izvietojumā API un PostgreSQL būs atsevišķa infrastruktūra.
 

@@ -26,6 +26,8 @@ jobs:
         run: |
           test -f public/data/meta.json
           node -e "const m=require('./public/data/meta.json'); if(m.mode!=='era5_land'||m.countries_with_data!==188) process.exit(1)"
+          test -f public/data/precipitation/meta.json
+          node -e "const m=require('./public/data/precipitation/meta.json'); if(m.mode!=='era5_land'||m.countries_with_data!==188||m.latest_date<'2026-11-08') process.exit(1)"
       - name: Build static site
         run: npm run build
         env:

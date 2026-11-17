@@ -3,7 +3,7 @@ import * as maplibregl from 'maplibre-gl';
 import type { Map, MapGeoJSONFeature } from 'maplibre-gl';
 import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url';
 import type { Feature, LineString } from 'geojson';
-import type { CountryRecord } from './types';
+import type { CountryRecord, Metric } from './types';
 import { anomalyColor } from './types';
 import { countryDisplayName } from './countryCatalog';
 
@@ -20,14 +20,15 @@ const MICRO = [
 ] as const;
 const NO_DATA = new Set(['KIR','MDV','MHL','NRU','SYC','TON','TUV']);
 
-export default function ClimateMap({ records, selected, onSelect }: { records: CountryRecord[]; selected: string | null; onSelect: (iso: string) => void }) {
+export default function ClimateMap({ records, metric, selected, onSelect }: { records: CountryRecord[]; metric: Metric; selected: string | null; onSelect: (iso: string) => void }) {
   const container = useRef<HTMLDivElement>(null);
   const mapRef = useRef<Map | null>(null);
   const popupRef = useRef<maplibregl.Popup | null>(null);
   const hovered = useRef<string | null>(null);
   const recordsRef = useRef(records);
+  const metricRef = useRef(metric);
   const selectRef = useRef(onSelect);
-  recordsRef.current = records; selectRef.current = onSelect;
+  recordsRef.current = records; metricRef.current = metric; selectRef.current = onSelect;
 
   useEffect(() => {
     if (!container.current) return;
@@ -67,7 +68,7 @@ export default function ClimateMap({ records, selected, onSelect }: { records: C
       map.addSource('micro',{type:'geojson',data:{type:'FeatureCollection',features:MICRO.map(m=>({type:'Feature' as const,properties:{iso3:m.iso3,noData:NO_DATA.has(m.iso3)},geometry:{type:'Point' as const,coordinates:[...m.coords]}}))}});
       map.addLayer({id:'micro-halo',type:'circle',source:'micro',paint:{'circle-radius':7,'circle-color':['case',['get','noData'],'#40596a','#092e46'],'circle-stroke-color':['case',['get','noData'],'#a8b8c1','#deeced'],'circle-stroke-width':1.5,'circle-opacity':.9}});
       map.addLayer({id:'micro-dot',type:'circle',source:'micro',paint:{'circle-radius':2.7,'circle-color':['case',['get','noData'],'#9cabb5','#f8e6ca']}});
-      const update = () => recordsRef.current.forEach(r => map.setFeatureState({source:'countries',id:r.iso3},{color:anomalyColor(r.anomaly)}));
+      const update = () => recordsRef.current.forEach(r => map.setFeatureState({source:'countries',id:r.iso3},{color:anomalyColor(r.anomaly,metricRef.current)}));
       map.on('sourcedata', e=>{ if(e.sourceId==='countries' && e.isSourceLoaded) update(); });
       update();
       const show = (e: maplibregl.MapLayerMouseEvent) => {
@@ -81,7 +82,7 @@ export default function ClimateMap({ records, selected, onSelect }: { records: C
         popupRef.current?.remove();
         const safeName=document.createElement('div'); safeName.className='map-tooltip';
         const title=document.createElement('strong');title.textContent=row?.name || countryDisplayName(iso, String(f.properties?.name || iso));
-        const value=document.createElement('span');value.textContent=row ? `${row.anomaly>=0?'+':''}${row.anomaly.toFixed(2)} °C ${row.quality==='proxy'?' · aproksimācija':''}` : 'Nav datu';
+        const value=document.createElement('span');value.textContent=row ? `${row.anomaly>=0?'+':''}${row.anomaly.toFixed(2)} ${metricRef.current==='precipitation'?'%':'°C'} ${row.quality==='proxy'?' · aproksimācija':''}` : 'Nav datu';
         safeName.append(title,value);
         popupRef.current=new maplibregl.Popup({closeButton:false,offset:15,className:'climate-popup'}).setLngLat(e.lngLat).setDOMContent(safeName).addTo(map);
       };
@@ -98,7 +99,7 @@ export default function ClimateMap({ records, selected, onSelect }: { records: C
     return ()=>{observer.disconnect();popupRef.current?.remove();map.remove();mapRef.current=null;};
   },[]);
 
-  useEffect(()=>{const map=mapRef.current;if(!map?.isStyleLoaded())return;records.forEach(r=>map.setFeatureState({source:'countries',id:r.iso3},{color:anomalyColor(r.anomaly)}));},[records]);
+  useEffect(()=>{const map=mapRef.current;if(!map?.isStyleLoaded())return;popupRef.current?.remove();map.removeFeatureState({source:'countries'});records.forEach(r=>map.setFeatureState({source:'countries',id:r.iso3},{color:anomalyColor(r.anomaly,metric)}));},[records,metric]);
   useEffect(()=>{const map=mapRef.current;if(map?.getLayer('selected-outline'))map.setFilter('selected-outline',['==',['get','iso3'],selected||'']);},[selected]);
-  return <div ref={container} className="map-canvas" aria-label="Interaktīva pasaules temperatūras anomāliju karte"/>;
+  return <div ref={container} className="map-canvas" aria-label={`Interaktīva pasaules ${metric==='precipitation'?'nokrišņu':'temperatūras'} anomāliju karte`}/>;
 }

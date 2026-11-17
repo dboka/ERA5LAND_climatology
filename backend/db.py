@@ -35,6 +35,23 @@ SCHEMA = [
     "CREATE INDEX IF NOT EXISTS ix_baseline_daily_calendar ON baseline_daily(iso3,mmdd)",
     "CREATE TABLE IF NOT EXISTS dataset_info (id INTEGER PRIMARY KEY, mode TEXT NOT NULL)",
     "CREATE TABLE IF NOT EXISTS ingested_months (month VARCHAR(7) PRIMARY KEY)",
+    """CREATE TABLE IF NOT EXISTS precipitation_baseline_daily (
+      iso3 VARCHAR(3) NOT NULL, day DATE NOT NULL, mmdd VARCHAR(5) NOT NULL,
+      precip_mm DOUBLE PRECISION NOT NULL CHECK (precip_mm >= 0),
+      PRIMARY KEY (iso3, day)
+    )""",
+    "CREATE INDEX IF NOT EXISTS ix_precipitation_baseline_day ON precipitation_baseline_daily(day)",
+    """CREATE TABLE IF NOT EXISTS precipitation_daily (
+      iso3 VARCHAR(3) NOT NULL, day DATE NOT NULL, mmdd VARCHAR(5) NOT NULL,
+      precip_mm DOUBLE PRECISION NOT NULL CHECK (precip_mm >= 0),
+      PRIMARY KEY (iso3, day)
+    )""",
+    "CREATE INDEX IF NOT EXISTS ix_precipitation_daily_day ON precipitation_daily(day)",
+    """CREATE TABLE IF NOT EXISTS precipitation_normals (
+      iso3 VARCHAR(3) NOT NULL, mmdd VARCHAR(5) NOT NULL,
+      precip_mm DOUBLE PRECISION NOT NULL CHECK (precip_mm >= 0),
+      PRIMARY KEY (iso3, mmdd)
+    )""",
 ]
 
 
@@ -43,6 +60,11 @@ def init_schema() -> None:
     with engine.begin() as conn:
         for statement in SCHEMA:
             conn.execute(text(statement))
+        view_query = """SELECT iso3, day, mmdd, precip_mm FROM precipitation_baseline_daily
+            WHERE day < '2020-01-01' UNION ALL
+            SELECT iso3, day, mmdd, precip_mm FROM precipitation_daily"""
+        prefix = 'CREATE OR REPLACE VIEW' if engine.dialect.name == 'postgresql' else 'CREATE VIEW IF NOT EXISTS'
+        conn.execute(text(f'{prefix} precipitation_archive AS {view_query}'))
 
 
 def scalar(query: str, params: dict | None = None):

@@ -2,6 +2,7 @@
 import argparse
 import json
 from collections import defaultdict
+from datetime import date, datetime, timezone
 from pathlib import Path
 from sqlalchemy import text
 from .db import ROOT, engine
@@ -40,6 +41,35 @@ def main():
     for month, data in months.items():
         (args.output / f'{month}.json').write_text(json.dumps(data,ensure_ascii=False,separators=(',',':')),encoding='utf8')
     print(f'Exported {len(months)} months to {args.output}')
+
+    if mode == 'era5_land':
+        precipitation_output = args.output / 'precipitation'
+        precipitation_output.mkdir(parents=True, exist_ok=True)
+        with engine.connect() as conn:
+            dates = conn.execute(text('SELECT MIN(day),MAX(day),COUNT(DISTINCT iso3) FROM precipitation_daily')).one()
+            norm_count = conn.execute(text('SELECT COUNT(*) FROM precipitation_normals')).scalar()
+            if not dates[0] or norm_count != 188 * 366:
+                raise SystemExit('Precipitation archive or normals are incomplete; refusing static export')
+            precipitation_normals = defaultdict(dict)
+            for row in conn.execute(text('SELECT iso3,mmdd,precip_mm FROM precipitation_normals')).mappings():
+                precipitation_normals[row['iso3']][row['mmdd']] = round(row['precip_mm'], 5)
+            precipitation_months = defaultdict(lambda: defaultdict(dict))
+            for row in conn.execute(text('SELECT iso3,day,precip_mm FROM precipitation_daily ORDER BY day,iso3')).mappings():
+                day = str(row['day'])
+                provisional = (datetime.now(timezone.utc).date() - date.fromisoformat(day)).days <= 90
+                precipitation_months[day[:7]][row['iso3']][day[-2:]] = [round(row['precip_mm'], 5), provisional]
+        precipitation_meta = {'first_date': str(dates[0]), 'latest_date': str(dates[1]),
+                              'countries_with_data': dates[2], 'mode': mode,
+                              'source': 'Copernicus ERA5-Land total precipitation; sum of 24 UTC hourly values',
+                              'baseline': '1991–2020'}
+        (precipitation_output / 'meta.json').write_text(
+            json.dumps(precipitation_meta, ensure_ascii=False, separators=(',', ':')), encoding='utf8')
+        (precipitation_output / 'normals.json').write_text(
+            json.dumps(precipitation_normals, ensure_ascii=False, separators=(',', ':')), encoding='utf8')
+        for month, data in precipitation_months.items():
+            (precipitation_output / f'{month}.json').write_text(
+                json.dumps(data, ensure_ascii=False, separators=(',', ':')), encoding='utf8')
+        print(f'Exported {len(precipitation_months)} precipitation months to {precipitation_output}')
 
 
 if __name__ == '__main__':

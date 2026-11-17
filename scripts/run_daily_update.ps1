@@ -66,6 +66,7 @@ try {
         $env:CLIMATE_DEMO = '0'
         & (Join-Path $PSScriptRoot 'start_local_site.ps1')
         Invoke-Native { & $python -u -m backend.etl.arco_daily_update } 'ARCO daily import'
+        Invoke-Native { & $python -u -m backend.etl.arco_precip_daily_update } 'ARCO precipitation daily import'
         Invoke-Native { & $python -m backend.export_static } 'Static data export'
         $env:VITE_STATIC_DATA = '1'
         $env:GITHUB_PAGES = '1'

@@ -52,6 +52,21 @@ Datubāzes kopējais izmērs šajā datumā ir ap 276 MB. Pirmais ikdienas cikls
 
 ## Datu ceļš
 
+### Nokrišņu vēsturiskais imports (pabeigts 2026-11-11)
+
+`backend/etl/arco_precipitation.py` lasa oficiālo ERA5-Land ARCO nokrišņu Zarr avotu (`sfc-pressure-precipitation/timeChunked.zarr`, mainīgais `tp`). Avotā uzkrātie nokrišņi jau ir sadalīti stundās; skripts saskaita 24 pilnas UTC stundas un pārvērš metrus milimetros. Valstu vidējiem izmanto tos pašus platību svarus un 188 valstis kā temperatūrai. Septiņas temperatūrai nepieejamās salu valstis netiek aizpildītas ar izdomātām vērtībām.
+
+| Tabula / skats | Saturs |
+| --- | --- |
+| `precipitation_baseline_daily` | 1991-01-01–2020-12-31 valstu dienas, ieskaitot 2020. gadu |
+| `precipitation_daily` | 2020-01-01–jaunākā ARCO pilnā diena; ikdienas papildinājumi |
+| `precipitation_normals` | 1991–2020 katras kalendāra dienas vidējie dienas nokrišņi; tiek veidoti pēc pilna importa |
+| `precipitation_archive` | Ērts skats visam 1991-01-01–jaunākajai dienai bez dubulta 2020. gada |
+
+Visās tabulās nokrišņu mērvienība ir **mm/dienā** (`precip_mm`). Vēsturiskais imports pabeigts 2026-11-11; `backend/etl/arco_precip_daily_update.py` tagad pievieno jaunās pilnās UTC dienas tajā pašā `GlobalClimateDailyUpdate` ciklā kā temperatūru. Vēsturiskā importa atsākšanas uzdevums `GlobalClimatePrecipitationResume` ir atspējots. Vietne izmanto `precipitation_daily` un `precipitation_normals`: perioda summas rāda mm, bet novirzi `(faktiskā/norma − 1) × 100` rāda procentos.
+
+Avota un aprēķina dokumentācija: [ECMWF ERA5-Land ARCO Product User Guide](https://confluence.ecmwf.int/spaces/CKB/pages/536218894/ERA5-Land+hourly+Analysis+Ready+Cloud+Optimised+ARCO+data+on+single+levels+from+1950+to+present+Product+User+Guide+PUG).
+
 1. Vēsturisko posmu veidoja `backend/etl/arco_2026.py` un `backend/etl/arco_backfill.py`; jaunas dienas tagad pievieno `backend/etl/arco_daily_update.py`. Visi lasa oficiālo ERA5-Land ARCO Zarr 2 m temperatūru. Dienas vērtība ir 24 UTC stundu vidējais.
 2. `backend/etl/ingest.py` sagatavo valstu sauszemes režģa šūnu platību svarus no `public/countries.geojson` un derīgajiem ERA5-Land punktiem. Svari tiek kešoti `data/weights-*.npz`.
 3. Vienas dienas transakcija ieraksta valstu rezultātus PostGIS. Pilni globālie režģu faili netiek glabāti ilgtermiņā.
@@ -93,4 +108,4 @@ Pārbaudiet, ka `data\backups\climate.dump` pastāv un nav tukšs. Glabājiet v�
 
 ## Statiskā vietne
 
-`backend/export_static.py` var izveidot `public/data/meta.json`, `countries.json`, `normals.json` un vienu JSON failu katram mēnesim. Ar `VITE_STATIC_DATA=1` pārlūks perioda vidējo aprēķina no šiem failiem, tāpēc GitHub Pages izvietošanai nav vajadzīgs dzīvs FastAPI/PostGIS. Tas ir eksporta momentuzņēmums: jaunas dienas parādās tikai pēc nākamā importa, eksporta un izvietošanas. Lokālā vietne pašlaik izmanto dzīvu API, nevis šo statisko režīmu.
+`backend/export_static.py` veido temperatūras `public/data/meta.json`, `normals.json` un mēnešu failus, kā arī atbilstošos nokrišņu failus `public/data/precipitation/`. Abiem rādītājiem ir kopīgs `countries.json`. Ar `VITE_STATIC_DATA=1` pārlūks perioda rezultātu aprēķina no šiem failiem, tāpēc GitHub Pages izvietošanai nav vajadzīgs dzīvs FastAPI/PostGIS. Tas ir eksporta momentuzņēmums: jaunas dienas parādās tikai pēc nākamā importa, eksporta un izvietošanas. Lokālā vietne izmanto dzīvu API.

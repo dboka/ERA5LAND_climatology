@@ -1,5 +1,6 @@
 export type PeriodKind = 'day' | 'week' | 'range' | 'month' | 'season' | 'year';
 export type Season = 'DJF' | 'MAM' | 'JJA' | 'SON';
+export type Metric = 'temperature' | 'precipitation';
 export interface Metadata { first_date: string | null; latest_date: string | null; countries_with_data: number; mode: 'demo' | 'era5_land'; source: string; baseline: string }
 export interface CountryRecord { iso3: string; name: string; status: 'member' | 'observer'; quality: 'grid' | 'limited' | 'proxy' | 'unavailable'; grid_cells: number; coverage: number; note: string; actual: number; normal: number; anomaly: number; days: number; provisional: boolean }
 export interface Anomalies { start: string; end: string; mode: string; countries: CountryRecord[] }
@@ -33,10 +34,9 @@ export function periodLabel(kind: PeriodKind, start: string, end: string, season
   const seasonYear = Number(start.slice(0, 4)) + (season === 'DJF' ? 1 : 0);
   return season === 'DJF' ? `${seasonYear - 1}./${seasonYear}. gada ziema` : `${seasonYear}. gada ${seasonName[season]}`;
 }
-export function anomalyColor(value: number | null): string {
+function colorScale(value: number | null, stops: [number, string][]): string {
   if (value === null) return '#60798a';
-  const stops: [number, string][] = [[-6,'#214f9b'],[-3,'#5d9bd3'],[-1,'#b9d9e6'],[0,'#f3f0e9'],[1,'#f1bcaa'],[3,'#d96d64'],[6,'#992d4f']];
-  const clamped = Math.max(-6, Math.min(6, value));
+  const clamped = Math.max(stops[0][0], Math.min(stops.at(-1)![0], value));
   for (let i=1;i<stops.length;i++) if (clamped <= stops[i][0]) {
     const t=(clamped-stops[i-1][0])/(stops[i][0]-stops[i-1][0]);
     const a=stops[i-1][1].match(/\w\w/g)!.map(x=>parseInt(x,16));
@@ -44,4 +44,9 @@ export function anomalyColor(value: number | null): string {
     return '#'+a.map((v,j)=>Math.round(v+(b[j]-v)*t).toString(16).padStart(2,'0')).join('');
   }
   return stops.at(-1)![1];
+}
+export function anomalyColor(value: number | null, metric: Metric = 'temperature'): string {
+  return metric === 'precipitation'
+    ? colorScale(value, [[-100,'#9a5527'],[-50,'#d18a48'],[-20,'#e9c28e'],[0,'#e7e7d8'],[20,'#9acdc4'],[50,'#4d9dbd'],[100,'#24589a']])
+    : colorScale(value, [[-6,'#214f9b'],[-3,'#5d9bd3'],[-1,'#b9d9e6'],[0,'#f3f0e9'],[1,'#f1bcaa'],[3,'#d96d64'],[6,'#992d4f']]);
 }

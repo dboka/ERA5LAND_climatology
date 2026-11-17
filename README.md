@@ -1,10 +1,10 @@
 # Pasaules klimats
 
-Interaktīva 2 m gaisa temperatūras anomāliju karte 195 ANO dalībvalstīm un novērotājvalstīm. Vietne izmanto Copernicus ERA5-Land valstu dienu datus un salīdzina izvēlēto periodu ar 1991–2020 klimatisko normu. Frontend: React, TypeScript, MapLibre GL JS. API: FastAPI. Glabāšana: PostgreSQL/PostGIS Docker volume.
+Interaktīva gaisa temperatūras un nokrišņu anomāliju karte 195 ANO dalībvalstīm un novērotājvalstīm. Vietne izmanto Copernicus ERA5-Land valstu dienu datus un salīdzina izvēlēto periodu ar 1991–2020 klimatisko normu. Frontend: React, TypeScript, MapLibre GL JS. API: FastAPI. Glabāšana: PostgreSQL/PostGIS Docker volume.
 
 ## Pašreizējais stāvoklis
 
-Vēsturiskais ARCO Zarr imports ir **pabeigts**. PostGIS glabā pilnu 1991–2020 valstu dienu vēsturi, 366 kalendāra dienu normas un 2020+ dienas. Jaunākā saglabātā diena 2026. gada 9. novembrī ir **2026-11-03**. 188 valstīm ir temperatūras dati; 7 salu valstīm ERA5-Land sauszemes režģa pārklājums nav pietiekams, tāpēc tās kartē redzamas ar statusu “Nav datu”. Monako un Vatikāns ir atsevišķi marķētas reģionālas aproksimācijas. Ikdienas automātiska atjaunināšana tagad ir ieslēgta lokāli.
+Vēsturiskais temperatūras un nokrišņu ARCO Zarr imports ir **pabeigts**. PostGIS glabā pilnu 1991–2020 valstu dienu vēsturi, 366 kalendāra dienu normas un 2020+ dienas abiem rādītājiem. Temperatūras un nokrišņu dienas lokāli tiek papildinātas automātiski; 2026. gada 17. novembrī abi arhīvi ir atjaunoti līdz jaunākajai ARCO pilnajai dienai **2026-11-08**. 188 valstīm ir abu rādītāju dati; 7 salu valstīm ERA5-Land sauszemes režģa pārklājums nav pietiekams, tāpēc tās kartē redzamas ar statusu “Nav datu”. Monako un Vatikāns ir atsevišķi marķētas reģionālas aproksimācijas.
 
 Precīza failu un Docker volume karte, tabulu saturs un rezerves kopijas instrukcija: [DATA_STORAGE.md](DATA_STORAGE.md). Ikdienas plūsma un GitHub Pages ceļš: [AUTOMATION.md](AUTOMATION.md). Aprēķinu un robežu metodika: [ARCHITECTURE.md](ARCHITECTURE.md).
 
@@ -30,13 +30,13 @@ Vietne: **http://127.0.0.1:5173/**. API metadati: **http://127.0.0.1:8013/api/me
 
 ## Kā lietot
 
-Izvēlieties dienu, nedēļu, datumu intervālu, mēnesi, meteoroloģisko sezonu vai gadu. Karte pārkrāso valstis pēc anomālijas °C ar vienotu −6…+6 °C skalu. Uzvediet peli, lai redzētu vērtību; klikšķiniet uz valsts, lai redzētu faktisko vidējo, normu un dinamiku. Mazās valstis var atlasīt ar kartes punktu vai meklēšanu. CSV eksportē atlasītā perioda valstu rezultātus. Septiņas valstis bez datiem var meklēt un atvērt, bet tām netiek rādīti izdomāti skaitļi. Grenlande un citas ārpus 195 valstu saraksta esošās teritorijas redzamas neitrālā, neklikšķināmā slānī.
+Augšā izvēlieties **Temperatūra** vai **Nokrišņi**, pēc tam dienu, nedēļu, intervālu, mēnesi, meteoroloģisko sezonu vai gadu. Temperatūras karte rāda anomāliju °C skalā −6…+6 °C. Nokrišņu karte rāda perioda summas procentuālo novirzi no normas, brūnā krāsā sausākus un zilā mitrākus periodus; profilā faktiskā un normas summa ir milimetros. Uzvediet peli, lai redzētu vērtību; klikšķiniet uz valsts, lai redzētu summu vai vidējo, normu un dinamiku. Mazās valstis var atlasīt ar kartes punktu vai meklēšanu. CSV eksportē atlasītā perioda valstu rezultātus. Septiņas valstis bez datiem var meklēt un atvērt, bet tām netiek rādīti izdomāti skaitļi. Grenlande un citas ārpus 195 valstu saraksta esošās teritorijas redzamas neitrālā, neklikšķināmā slānī.
 
 ## Datu plūsma
 
-`backend/etl/arco_backfill.py` apstrādāja 1991–2025 trūkstošās UTC dienas no ERA5-Land ARCO Zarr. Agrākās 1991-01–1994-11 dienas jau bija saglabātas no CDS dienas statistikas. `backend/etl/arco_2026.py` apstrādāja 2026. gadu. Režģa un valstu ģeometriju platību svari tiek kešoti `data/weights-*.npz`; katra pabeigtā diena tiek saglabāta PostGIS. Pilni ERA5-Land režģi netiek arhivēti. `baseline_daily` glabā 1991–2020 vēsturi, `daily` glabā 2020+ dienas, `normals` glabā 1991–2020 kalendāra dienu vidējās vērtības. 2020. gads apzināti ietilpst abās dienu tabulās. Lietotāja pieprasījums **nekad nelejupielādē ERA5-Land**; FastAPI nolasa sagatavotās valstu tabulas.
+`backend/etl/arco_backfill.py` apstrādāja 1991–2025 trūkstošās temperatūras UTC dienas no ERA5-Land ARCO Zarr. Agrākās 1991-01–1994-11 dienas jau bija saglabātas no CDS dienas statistikas. `backend/etl/arco_2026.py` apstrādāja 2026. gadu. `backend/etl/arco_precipitation.py` no cita ERA5-Land Zarr avota sagatavoja nokrišņu vēsturisko arhīvu līdz 2026-11-03; jaunākās dienas pievieno `backend/etl/arco_precip_daily_update.py`. Režģa un valstu ģeometriju platību svari tiek kešoti `data/weights-*.npz`; katra pabeigtā diena tiek saglabāta PostGIS. Pilni ERA5-Land režģi netiek arhivēti. Abiem rādītājiem ir 1991–2020 vēsture un normas, kā arī 2020+ dienas. 2020. gads apzināti ietilpst abās dienu tabulās. Lietotāja pieprasījums **nekad nelejupielādē ERA5-Land**; FastAPI nolasa sagatavotās valstu tabulas.
 
-Lokālais Windows uzdevums `GlobalClimateDailyUpdate` strādā katru dienu plkst. 08.00 un pēc lietotāja pieteikšanās. Tas izmanto `backend/etl/arco_daily_update.py` un PostGIS kā kontrolpunktu, atjauno `public/data/` un statisko `dist/` būvējumu. Statuss:
+Lokālais Windows uzdevums `GlobalClimateDailyUpdate` strādā katru dienu plkst. 08.00 un pēc lietotāja pieteikšanās. Tas izmanto `backend/etl/arco_daily_update.py` temperatūrai un `backend/etl/arco_precip_daily_update.py` nokrišņiem, PostGIS izmanto kā kontrolpunktu un atjauno `public/data/` un statisko `dist/` būvējumu. Statuss:
 
 ```powershell
 .\scripts\daily_update_status.ps1
@@ -60,9 +60,10 @@ npm run build
 
 ## API un pārbaudes
 
-- `GET /api/meta` — datu periods, valstu skaits, izcelsme.
-- `GET /api/anomalies?start=2026-09-01&end=2026-09-30` — perioda faktiskā temperatūra, norma un anomālija pa valstīm.
-- `GET /api/countries/LVA/series?start=2026-09-01&end=2026-09-30` — Latvijas dienu dinamika.
+- `GET /api/meta?metric=precipitation` — nokrišņu datu periods, valstu skaits, izcelsme.
+- `GET /api/anomalies?start=2026-09-01&end=2026-09-30&metric=precipitation` — perioda faktiskā nokrišņu summa mm, normas summa mm un novirze % pa valstīm.
+- `GET /api/countries/LVA/series?start=2026-09-01&end=2026-09-30&metric=precipitation` — Latvijas dienu dinamika.
+- Bez `metric` parametra API atgriež iepriekšējo temperatūras skatu.
 - `npm run build` — TypeScript pārbaude un produkcijas būvējums.
 - `.\.venv\Scripts\python.exe -m unittest discover -s tests -v` — ETL, garā gada un valstu kataloga pārbaudes.
 
