@@ -10,8 +10,8 @@ let countriesPromise: Promise<CountryInfo[]> | null = null;
 const normalsCache = new Map<Metric, Promise<Record<string, Record<string, number>>>>();
 const monthCache = new Map<string, Promise<Month>>();
 const metricBase = (metric:Metric) => metric === 'precipitation' ? `${base}precipitation/` : base;
-const anomaly = (actual:number, normal:number, metric:Metric) => metric === 'precipitation'
-  ? (normal > 0 ? (actual / normal - 1) * 100 : 0) : actual - normal;
+const anomaly = (actual:number, normal:number, days:number, metric:Metric) => metric === 'precipitation'
+  ? (normal > 0 ? (actual / normal - 1) * 100 : 0) : (actual - normal) / days;
 
 async function json<T>(url:string, signal?:AbortSignal, fresh=false):Promise<T>{
   const response=await fetch(url,{signal,cache:fresh?'no-store':'default'});
@@ -43,7 +43,7 @@ export async function getAnomalies(metric:Metric,start:string,end:string,signal?
       actual+=value[0];normal+=norm;days++;provisional ||= value[1];
     }));
     if(days)rows.push({...c,actual:metric==='precipitation'?actual:actual/days,
-      normal:metric==='precipitation'?normal:normal/days,anomaly:anomaly(actual,normal,metric),days,provisional});
+      normal:metric==='precipitation'?normal:normal/days,anomaly:anomaly(actual,normal,days,metric),days,provisional});
   });
   return withLatvianNames({start,end,mode:'static',countries:rows});
 }
@@ -61,5 +61,5 @@ export async function getSeries(metric:Metric,iso3:string,start:string,end:strin
   return {iso3,grouping,points:[...buckets.entries()].map(([date,b])=>({date,
     actual:metric==='precipitation'?b.actual:b.actual/b.days,
     normal:metric==='precipitation'?b.normal:b.normal/b.days,
-    anomaly:anomaly(b.actual,b.normal,metric),days:b.days}))};
+    anomaly:anomaly(b.actual,b.normal,b.days,metric),days:b.days}))};
 }
