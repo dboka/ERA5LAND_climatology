@@ -16,9 +16,9 @@ def metric_config(metric: Metric):
     if metric == 'precipitation':
         if DEMO:
             raise HTTPException(503, 'Ilustratīvajā režīmā nokrišņu dati nav pieejami')
-        return ('precipitation_daily', 'precipitation_normals', 'precip_mm', 'SUM',
+        return ('precipitation_archive', 'precipitation_normals', 'precip_mm', 'SUM',
                 "MAX(CASE WHEN d.day >= CURRENT_DATE - INTERVAL '90 days' THEN 1 ELSE 0 END)")
-    return 'daily', 'normals', 'temp_c', 'AVG', 'MAX(CASE WHEN d.provisional THEN 1 ELSE 0 END)'
+    return ('daily' if DEMO else 'temperature_archive'), 'normals', 'temp_c', 'AVG', 'MAX(CASE WHEN d.provisional THEN 1 ELSE 0 END)'
 
 
 def anomaly_value(actual: float, normal: float, metric: Metric) -> float:
@@ -48,15 +48,17 @@ app.add_middleware(CORSMiddleware, allow_origins=['http://127.0.0.1:5173', 'http
 def bounds(start: date, end: date, metric: Metric = 'temperature'):
     if start > end:
         raise HTTPException(422, 'Sākuma datums ir pēc beigu datuma')
-    if start < date(2020, 1, 1):
-        raise HTTPException(422, 'Pieejamais periods sākas 2020-01-01')
     table = metric_config(metric)[0]
     with engine.connect() as conn:
-        latest = conn.execute(text(f'SELECT MAX(day) FROM {table}')).scalar()
+        earliest, latest = conn.execute(text(f'SELECT MIN(day),MAX(day) FROM {table}')).one()
     if latest is None:
         raise HTTPException(503, 'Dienas dati vēl nav sagatavoti')
+    if isinstance(earliest, str):
+        earliest = date.fromisoformat(earliest)
     if isinstance(latest, str):
         latest = date.fromisoformat(latest)
+    if start < earliest:
+        raise HTTPException(422, f'Pirmais pieejamais datums ir {earliest}')
     if end > latest:
         raise HTTPException(422, f'Jaunākais pieejamais datums ir {latest}')
 

@@ -4,7 +4,7 @@ Interaktīva gaisa temperatūras un nokrišņu anomāliju karte 195 ANO dalībva
 
 ## Pašreizējais stāvoklis
 
-Vēsturiskais temperatūras un nokrišņu ARCO Zarr imports ir **pabeigts**. PostGIS glabā pilnu 1991–2020 valstu dienu vēsturi, 366 kalendāra dienu normas un 2020+ dienas abiem rādītājiem. Temperatūras un nokrišņu dienas lokāli tiek papildinātas automātiski; 2026. gada 17. novembrī abi arhīvi ir atjaunoti līdz jaunākajai ARCO pilnajai dienai **2026-11-08**. 188 valstīm ir abu rādītāju dati; 7 salu valstīm ERA5-Land sauszemes režģa pārklājums nav pietiekams, tāpēc tās kartē redzamas ar statusu “Nav datu”. Monako un Vatikāns ir atsevišķi marķētas reģionālas aproksimācijas.
+Vēsturiskais temperatūras un nokrišņu ARCO Zarr imports ir **pabeigts**. PostGIS glabā pilnu 1991–2020 valstu dienu vēsturi, 366 kalendāra dienu normas un 2020+ dienas abiem rādītājiem. Vietnē var izvēlēties jebkuru gadu no **1991** līdz jaunākajam pieejamajam datumam; arī vēsturiskie gadi tiek salīdzināti ar nemainīto **1991–2020** normu. Temperatūras un nokrišņu dienas lokāli tiek papildinātas automātiski; publicētajā momentuzņēmumā abi arhīvi pašlaik aptver periodu līdz **2026-11-08**. 188 valstīm ir abu rādītāju dati; 7 salu valstīm ERA5-Land sauszemes režģa pārklājums nav pietiekams, tāpēc tās kartē redzamas ar statusu “Nav datu”. Monako un Vatikāns ir atsevišķi marķētas reģionālas aproksimācijas.
 
 Precīza failu un Docker volume karte, tabulu saturs un rezerves kopijas instrukcija: [DATA_STORAGE.md](DATA_STORAGE.md). Ikdienas plūsma un GitHub Pages ceļš: [AUTOMATION.md](AUTOMATION.md). Aprēķinu un robežu metodika: [ARCHITECTURE.md](ARCHITECTURE.md).
 
@@ -56,7 +56,7 @@ $env:GITHUB_PAGES='1'
 npm run build
 ```
 
-`dist/` ir gatavs statisks būvējums. GitHub Pages izmanto repozitorijā iekļauto `public/data/` momentuzņēmumu; `.github/workflows/pages.yml` tiek palaista tikai manuāli. `vite.config.ts` nosaka bāzes ceļu no `GITHUB_REPOSITORY` vai `PAGES_BASE`. GitHub Pages pats nevar palaist Python ETL vai piekļūt šī datora PostGIS. Lokālais ikdienas uzdevums turpina gatavot jaunos datus, bet neko automātiski nesūta uz GitHub; skatīt [AUTOMATION.md](AUTOMATION.md).
+`dist/` ir gatavs statisks būvējums. Eksports iekļauj 1991–2019 dienas no vēsturiskajām tabulām un 2020+ dienas no ikdienas tabulām bez dubulta 2020. gada; normas netiek pārrēķinātas. GitHub Pages izmanto repozitorijā iekļauto `public/data/` momentuzņēmumu; `.github/workflows/pages.yml` tiek palaista tikai manuāli. `vite.config.ts` nosaka bāzes ceļu no `GITHUB_REPOSITORY` vai `PAGES_BASE`. GitHub Pages pats nevar palaist Python ETL vai piekļūt šī datora PostGIS. Lokālais ikdienas uzdevums turpina gatavot jaunos datus, bet neko automātiski nesūta uz GitHub; skatīt [AUTOMATION.md](AUTOMATION.md).
 
 ## API un pārbaudes
 

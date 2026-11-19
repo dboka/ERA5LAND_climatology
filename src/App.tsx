@@ -39,7 +39,7 @@ export default function App() {
   const initializedMeta=useRef(false);
   const latestMetaDate=useRef<Partial<Record<Metric,string|null>>>({});
   const [rangeStart,rangeEnd]=periodDates(kind,anchor,endInput,season);
-  const valid=Boolean(meta?.latest_date && rangeStart>= '2020-01-01' && rangeStart<=rangeEnd && rangeStart<=meta.latest_date);
+  const valid=Boolean(meta?.first_date && meta?.latest_date && rangeStart>=meta.first_date && rangeStart<=rangeEnd && rangeStart<=meta.latest_date);
   const effectiveEnd=meta?.latest_date && rangeEnd>meta.latest_date ? meta.latest_date : rangeEnd;
   const partial=valid && effectiveEnd<rangeEnd;
 
@@ -117,7 +117,7 @@ export default function App() {
           <p className="intro">{metric==='precipitation'?'Atklāj, kur izvēlētajā periodā nokrišņu bija vairāk vai mazāk nekā klimatiskajā normā.':'Atklāj, kur izvēlētajā periodā gaisa temperatūra atšķīrās no klimatiskās normas attiecīgajā valstī.'}</p>
           <div className="sidebar-divider"/>
           <PeriodPicker kind={kind} anchor={anchor} endInput={endInput} season={season} latestDate={meta?.latest_date}
-            title={title} start={rangeStart} end={effectiveEnd} valid={valid}
+            title={title} start={rangeStart} end={effectiveEnd} valid={valid} firstDate={meta?.first_date}
             onKind={setKind} onAnchor={setAnchor} onEnd={setEndInput} onSeason={setSeason}/>
           <div className="sidebar-divider"/>
           <div className="section-heading"><Search size={16}/><span>ATRAST VALSTI</span></div>

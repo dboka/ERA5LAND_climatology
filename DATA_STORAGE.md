@@ -37,16 +37,16 @@ Docker volume fiziski atrodas Docker Desktop Linux vidē kā `/var/lib/docker/vo
 
 ## Tabulas un pašreizējais tvērums
 
-| Tabula | Atslēga | Saturs | Rindas 2026-11-09 |
+| Tabula | Atslēga | Saturs | Rindas 2026-11-19 |
 | --- | --- | --- | ---: |
 | `countries` | `iso3` | 195 valstu katalogs, kvalitātes klase, pārklājums, robežu ģeometrija | 195 |
 | `baseline_daily` | `(iso3, day)` | Katras dienas valstu vidējā 1991-01-01–2020-12-31 | 2 060 104 |
-| `daily` | `(iso3, day)` | Vietnē skatāmās valstu dienas 2020-01-01–2026-11-03 | 469 812 |
+| `daily` | `(iso3, day)` | Valstu dienas 2020-01-01–2026-11-08 | 470 752 |
 | `normals` | `(iso3, mmdd)` | 1991–2020 kalendāra dienu normas; 29. februāris no garajiem gadiem | 68 808 |
 | `ingested_months` | `month` | Pabeigto mēnešu kontrolpunkti | atkarīgs no importa |
 | `dataset_info` | `id` | Datu izcelsmes režīms (`era5_land`) | 1 |
 
-Vēsture un attēlojamie dati aptver 188 valstis, katru dienu bez iztrūkumiem attiecīgajā intervālā. 2020. gads apzināti ir abās dienu tabulās. Kvalitātes sadalījums: `grid` 174, `limited` 12, `proxy` 2 (Monako un Vatikāns), `unavailable` 7. Šīm septiņām salu valstīm skaitļi netiek ģenerēti: Kiribati, Maldīvija, Māršala Salas, Nauru, Seišelas, Tonga, Tuvalu. Tās paliek 195 valstu katalogā un kartē ar neitrālu krāsu.
+Vēsture un attēlojamie dati aptver 188 valstis, katru dienu bez iztrūkumiem attiecīgajā intervālā. `temperature_archive` apvieno 1991–2019 `baseline_daily` un 2020+ `daily` bez dubulta 2020. gada; `precipitation_archive` dara to pašu nokrišņiem. Abus skatus izmanto API un statiskais eksports. 1991–2020 normas paliek nemainīgas. Kvalitātes sadalījums: `grid` 174, `limited` 12, `proxy` 2 (Monako un Vatikāns), `unavailable` 7. Šīm septiņām salu valstīm skaitļi netiek ģenerēti: Kiribati, Maldīvija, Māršala Salas, Nauru, Seišelas, Tonga, Tuvalu. Tās paliek 195 valstu katalogā un kartē ar neitrālu krāsu.
 
 Datubāzes kopējais izmērs šajā datumā ir ap 276 MB. Pirmais ikdienas cikls papildināja datus līdz 2026-11-03; turpmāk `GlobalClimateDailyUpdate` katru rītu pārbauda ARCO pieejamās pilnās UTC dienas. Vēsturiskais ARCO imports pabeidzās 2026-10-30; `GlobalClimateARCOResume` ir tikai šī vēsturiskā darba atsākšanai pēc pieteikšanās un neaizstāj ikdienas uzdevumu. Vecais `GlobalClimateERA5Resume` ir atspējots. Skatīt [AUTOMATION.md](AUTOMATION.md).
 
@@ -63,14 +63,14 @@ Datubāzes kopējais izmērs šajā datumā ir ap 276 MB. Pirmais ikdienas cikls
 | `precipitation_normals` | 1991–2020 katras kalendāra dienas vidējie dienas nokrišņi; tiek veidoti pēc pilna importa |
 | `precipitation_archive` | Ērts skats visam 1991-01-01–jaunākajai dienai bez dubulta 2020. gada |
 
-Visās tabulās nokrišņu mērvienība ir **mm/dienā** (`precip_mm`). Vēsturiskais imports pabeigts 2026-11-11; `backend/etl/arco_precip_daily_update.py` tagad pievieno jaunās pilnās UTC dienas tajā pašā `GlobalClimateDailyUpdate` ciklā kā temperatūru. Vēsturiskā importa atsākšanas uzdevums `GlobalClimatePrecipitationResume` ir atspējots. Vietne izmanto `precipitation_daily` un `precipitation_normals`: perioda summas rāda mm, bet novirzi `(faktiskā/norma − 1) × 100` rāda procentos.
+Visās tabulās nokrišņu mērvienība ir **mm/dienā** (`precip_mm`). Vēsturiskais imports pabeigts 2026-11-11; `backend/etl/arco_precip_daily_update.py` tagad pievieno jaunās pilnās UTC dienas tajā pašā `GlobalClimateDailyUpdate` ciklā kā temperatūru. Vēsturiskā importa atsākšanas uzdevums `GlobalClimatePrecipitationResume` ir atspējots. Vietne izmanto `precipitation_archive` un `precipitation_normals`: perioda summas rāda mm, bet novirzi `(faktiskā/norma − 1) × 100` rāda procentos.
 
 Avota un aprēķina dokumentācija: [ECMWF ERA5-Land ARCO Product User Guide](https://confluence.ecmwf.int/spaces/CKB/pages/536218894/ERA5-Land+hourly+Analysis+Ready+Cloud+Optimised+ARCO+data+on+single+levels+from+1950+to+present+Product+User+Guide+PUG).
 
 1. Vēsturisko posmu veidoja `backend/etl/arco_2026.py` un `backend/etl/arco_backfill.py`; jaunas dienas tagad pievieno `backend/etl/arco_daily_update.py`. Visi lasa oficiālo ERA5-Land ARCO Zarr 2 m temperatūru. Dienas vērtība ir 24 UTC stundu vidējais.
 2. `backend/etl/ingest.py` sagatavo valstu sauszemes režģa šūnu platību svarus no `public/countries.geojson` un derīgajiem ERA5-Land punktiem. Svari tiek kešoti `data/weights-*.npz`.
 3. Vienas dienas transakcija ieraksta valstu rezultātus PostGIS. Pilni globālie režģu faili netiek glabāti ilgtermiņā.
-4. `normals` aprēķina no saglabātās `baseline_daily` vēstures. `backend/app.py` API perioda pieprasījumā izmanto tikai PostGIS `daily` un `normals`, bez ARCO lejupielādes.
+4. `normals` aprēķina no saglabātās `baseline_daily` vēstures. `backend/app.py` API perioda pieprasījumā izmanto PostGIS `temperature_archive` un `normals`, bez ARCO lejupielādes.
 5. `src/dataClient.ts` pieprasa API; `src/ClimateMap.tsx` pārkrāso MapLibre karti, un `src/App.tsx` rāda valsts profilu.
 
 Skatīt [ARCHITECTURE.md](ARCHITECTURE.md) metodikai, kvalitātes noteikumiem un sezonu aprēķinam. ERA5-Land ir reanalīze, nevis staciju mērījumi; `proxy` un `limited` vērtības jāinterpretē ar norādīto nenoteiktību.

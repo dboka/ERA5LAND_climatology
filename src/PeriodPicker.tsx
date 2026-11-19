@@ -81,17 +81,21 @@ function CalendarDateField({ label, value, min, max, onChange }: {
   </div>;
 }
 
-export default function PeriodPicker({ kind, anchor, endInput, season, latestDate, title, start, end, valid,
+export default function PeriodPicker({ kind, anchor, endInput, season, firstDate, latestDate, title, start, end, valid,
   onKind, onAnchor, onEnd, onSeason }: {
-  kind: PeriodKind; anchor: string; endInput: string; season: Season; latestDate?: string | null;
+  kind: PeriodKind; anchor: string; endInput: string; season: Season; firstDate?: string | null; latestDate?: string | null;
   title: string; start: string; end: string; valid: boolean;
   onKind: (kind: PeriodKind) => void; onAnchor: (date: string) => void;
   onEnd: (date: string) => void; onSeason: (season: Season) => void;
 }) {
+  const earliest = firstDate || '2020-01-01';
+  const firstWeek = new Date(`${earliest}T12:00:00Z`);
+  firstWeek.setUTCDate(firstWeek.getUTCDate() + (8 - firstWeek.getUTCDay()) % 7);
+  const firstWeekDate = firstWeek.toISOString().slice(0, 10);
   const selectedYear = Number(anchor.slice(0, 4));
   const selectedMonth = anchor.slice(5, 7);
   const latestYear = Number(latestDate?.slice(0, 4) || anchor.slice(0, 4));
-  const years = Array.from({ length: latestYear - 2019 }, (_, index) => latestYear - index);
+  const years = Array.from({ length: Math.max(0, latestYear - Number(earliest.slice(0, 4)) + 1) }, (_, index) => latestYear - index);
   const setMonthYear = (year: number, month: string) => {
     const requested = `${year}-${month}`;
     const selected = latestDate && requested > latestDate.slice(0, 7) ? latestDate.slice(0, 7) : requested;
@@ -100,7 +104,7 @@ export default function PeriodPicker({ kind, anchor, endInput, season, latestDat
   const changeStart = (date: string) => { onAnchor(date); if (kind === 'range' && endInput < date) onEnd(date); };
   const seasonUnavailable = (code: Season, year: number) => {
     const [first] = periodDates('season', `${year}-01-01`, '', code);
-    return first < '2020-01-01' || Boolean(latestDate && first > latestDate);
+    return first < earliest || Boolean(latestDate && first > latestDate);
   };
 
   return <section className="period-picker" aria-label="Laika perioda izvēle">
@@ -108,20 +112,20 @@ export default function PeriodPicker({ kind, anchor, endInput, season, latestDat
     <div className="period-modes" role="group" aria-label="Perioda veids">
       {MODES.map(mode => <button type="button" key={mode.id} className={kind === mode.id ? 'active' : ''}
         aria-pressed={kind === mode.id} onClick={() => {
-          if (mode.id === 'week' && anchor < '2020-01-06') onAnchor('2020-01-06');
+          if (mode.id === 'week' && anchor < firstWeekDate) onAnchor(firstWeekDate);
           onKind(mode.id);
         }}>{mode.label}</button>)}
     </div>
     <div className="period-controls">
-      {kind === 'day' && <CalendarDateField label="Izvēlies dienu" value={anchor} min="2020-01-01" max={latestDate || undefined} onChange={onAnchor}/>}
-      {kind === 'week' && <><CalendarDateField label="Izvēlies nedēļas dienu" value={anchor} min="2020-01-06" max={latestDate || undefined} onChange={onAnchor}/><p className="period-helper">Nedēļa ilgst no pirmdienas līdz svētdienai.</p></>}
+      {kind === 'day' && <CalendarDateField label="Izvēlies dienu" value={anchor} min={earliest} max={latestDate || undefined} onChange={onAnchor}/>}
+      {kind === 'week' && <><CalendarDateField label="Izvēlies nedēļas dienu" value={anchor} min={firstWeekDate} max={latestDate || undefined} onChange={onAnchor}/><p className="period-helper">Nedēļa ilgst no pirmdienas līdz svētdienai.</p></>}
       {kind === 'range' && <div className="period-range-fields">
-        <CalendarDateField label="No" value={anchor} min="2020-01-01" max={latestDate || undefined} onChange={changeStart}/>
+        <CalendarDateField label="No" value={anchor} min={earliest} max={latestDate || undefined} onChange={changeStart}/>
         <CalendarDateField label="Līdz" value={endInput} min={anchor} max={latestDate || undefined} onChange={onEnd}/>
       </div>}
       {kind === 'month' && <div className="period-select-row">
         <label className="period-select-field period-month-field"><span className="period-field-label">Mēnesis</span><select value={selectedMonth} onChange={event => setMonthYear(selectedYear, event.target.value)}>
-          {MONTHS.map((name, index) => { const month = pad(index + 1); return <option key={month} value={month} disabled={Boolean(latestDate && `${selectedYear}-${month}` > latestDate.slice(0, 7))}>{name.charAt(0).toUpperCase() + name.slice(1)}</option>; })}
+          {MONTHS.map((name, index) => { const month = pad(index + 1); return <option key={month} value={month} disabled={`${selectedYear}-${month}` < earliest.slice(0, 7) || Boolean(latestDate && `${selectedYear}-${month}` > latestDate.slice(0, 7))}>{name.charAt(0).toUpperCase() + name.slice(1)}</option>; })}
         </select><ChevronDown size={16}/></label>
         <label className="period-select-field period-year-field"><span className="period-field-label">Gads</span><select value={selectedYear} onChange={event => setMonthYear(Number(event.target.value), selectedMonth)}>
           {years.map(year => <option key={year} value={year}>{year}</option>)}
@@ -136,7 +140,7 @@ export default function PeriodPicker({ kind, anchor, endInput, season, latestDat
           <strong>{item.label}</strong><span>{item.months}</span>
         </button>)}
       </div>}
-      {!valid && latestDate && <p className="period-error" role="alert">Šis periods nav pieejams. Izvēlies datumu no 2020. gada līdz {shortDate(latestDate)}.</p>}
+      {!valid && latestDate && <p className="period-error" role="alert">Šis periods nav pieejams. Izvēlies datumu no {shortDate(earliest)} līdz {shortDate(latestDate)}.</p>}
       <div className="period-selection" aria-live="polite">
         <span className="period-selection-label">Kartē redzams</span>
         <strong>{valid ? title : 'Nav pieejamu datu'}</strong>

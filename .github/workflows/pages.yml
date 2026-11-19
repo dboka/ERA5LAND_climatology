@@ -28,6 +28,7 @@ jobs:
           node -e "const m=require('./public/data/meta.json'); if(m.mode!=='era5_land'||m.countries_with_data!==188) process.exit(1)"
           test -f public/data/precipitation/meta.json
           node -e "const m=require('./public/data/precipitation/meta.json'); if(m.mode!=='era5_land'||m.countries_with_data!==188||m.latest_date<'2026-11-08') process.exit(1)"
+          node -e "const fs=require('fs'); for(const folder of ['public/data','public/data/precipitation']) {const m=require('./'+folder+'/meta.json'); if(m.first_date!=='1991-01-01'||m.baseline!=='1991–2020') process.exit(1); for(let y=1991;y<=2020;y++) for(let n=1;n<=12;n++) if(!fs.existsSync(folder+'/'+y+'-'+String(n).padStart(2,'0')+'.json')) process.exit(1)}"
       - name: Build static site
         run: npm run build
         env:

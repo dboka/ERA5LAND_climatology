@@ -65,6 +65,10 @@ def init_schema() -> None:
             SELECT iso3, day, mmdd, precip_mm FROM precipitation_daily"""
         prefix = 'CREATE OR REPLACE VIEW' if engine.dialect.name == 'postgresql' else 'CREATE VIEW IF NOT EXISTS'
         conn.execute(text(f'{prefix} precipitation_archive AS {view_query}'))
+        temperature_view = """SELECT iso3, day, mmdd, temp_c, FALSE AS provisional FROM baseline_daily
+            WHERE day < '2020-01-01' UNION ALL
+            SELECT iso3, day, mmdd, temp_c, provisional FROM daily"""
+        conn.execute(text(f'{prefix} temperature_archive AS {temperature_view}'))
 
 
 def scalar(query: str, params: dict | None = None):
